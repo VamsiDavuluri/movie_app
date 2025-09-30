@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- THIS IS THE LINE YOU NEED TO ADD -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="movie_app"
         android:name="${applicationName}"

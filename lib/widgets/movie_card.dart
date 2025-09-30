@@ -1,27 +1,33 @@
 // lib/widgets/movie_card.dart
 
 import 'package:flutter/material.dart';
-import '../models/movie_model.dart';
 
 class MovieCard extends StatelessWidget {
-  final Movie movie;
+  final String imageUrl;
   final bool isFocused;
 
-  const MovieCard({super.key, required this.movie, required this.isFocused});
+  const MovieCard({super.key, required this.imageUrl, required this.isFocused});
 
   @override
   Widget build(BuildContext context) {
-    // The widget now only contains the main Card for the poster.
-    // The entire reflection Column has been removed.
+    // The Column and the entire reflection section have been removed.
+    // The widget is now just the main Card.
     return Card(
       elevation: isFocused ? 12 : 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       clipBehavior: Clip.antiAlias,
-      child: Image.asset(
-        movie.imagePath,
+      child: Image.network(
+        imageUrl,
         fit: BoxFit.cover,
         height: 320,
         width: 220,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return const Center(child: CircularProgressIndicator());
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return const Center(child: Icon(Icons.error, color: Colors.red));
+        },
       ),
     );
   }
